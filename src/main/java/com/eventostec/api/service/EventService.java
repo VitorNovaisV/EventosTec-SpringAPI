@@ -52,7 +52,7 @@ public class EventService {
     public String uploadImg(MultipartFile file){
 
         try {
-            String fileName =  UUID.randomUUID().toString()+"."+file.getOriginalFilename();
+            String fileName =  UUID.randomUUID() + "."+file.getOriginalFilename();
 
             PutObjectRequest putOb = PutObjectRequest.builder()
                     .bucket(bucketName)
@@ -62,7 +62,7 @@ public class EventService {
 
             s3Client.putObject(putOb, RequestBody.fromBytes(file.getBytes()));
 
-            return String.format("%s/storage/v1/object/public/%s/%s",
+            return String.format("%s.supabase.co/storage/v1/object/public/%s/%s",
                     supabaseUrl, bucketName, fileName);
 
         }catch (Exception e){
