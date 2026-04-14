@@ -8,13 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 public interface EventRepository  extends JpaRepository<Event, UUID> {
 
     @Query("SELECT e FROM EVENT e WHERE e.date >=currentDate")
-    public Page<Event> findUpcomingEvents(@Param("currentDate") Date currentDate, Pageable pageable);
+    Page<Event> findUpcomingEvents(@Param("currentDate") Date currentDate, Pageable pageable);
 
 
 
