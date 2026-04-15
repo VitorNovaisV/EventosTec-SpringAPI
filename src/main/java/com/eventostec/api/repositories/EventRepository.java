@@ -10,10 +10,23 @@ import org.springframework.data.repository.query.Param;
 import java.util.Date;
 import java.util.UUID;
 
+
+//The Repository is the representation of the connection with the database, it has similar SQL like query's
+//here it needs to extend the JpaRepository that already uses the variables to connect defined in the .dev
+
 public interface EventRepository  extends JpaRepository<Event, UUID> {
+
+    //Using a @Query annotation to make a more specific type of query that supply my needs
+    // it uses JPQL (Java Persistence Query Language). it's similar to SQL
+
+    //the following function returns a Page of Events,
+    //It's similar to a list but with pagination already implemented by spring
+    //As parameters is asked the current date, and the Pageable class that allows the pagination to work
 
     @Query("SELECT e FROM Event e LEFT JOIN FETCH e.address a WHERE e.date >=currentDate")
     Page<Event> findUpcomingEvents(@Param("currentDate") Date currentDate, Pageable pageable);
+
+    //Query a bit more complex than the last, using the concept of JOIN
 
     @Query("SELECT e.id AS id, e.title AS title, e.description AS description, e.date AS date, e.imgUrl AS imgUrl, e.eventUrl AS eventUrl, e.remote AS remote, a.city AS city, a.uf AS uf " +
             "FROM Event e JOIN Address a ON e.id = a.event.id " +
