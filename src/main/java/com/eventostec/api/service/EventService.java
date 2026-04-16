@@ -1,6 +1,9 @@
 package com.eventostec.api.service;
 
+import com.eventostec.api.domain.address.Address;
+import com.eventostec.api.domain.coupon.Coupon;
 import com.eventostec.api.domain.event.Event;
+import com.eventostec.api.domain.event.EventDetailsDTO;
 import com.eventostec.api.domain.event.EventRequestDTO;
 import com.eventostec.api.domain.event.EventResponseDTO;
 import com.eventostec.api.repositories.EventRepository;
@@ -18,6 +21,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -33,6 +37,9 @@ public class EventService {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private CouponService couponService;
 
     @Autowired
     private EventRepository eventRepository;
@@ -97,6 +104,32 @@ public class EventService {
                         event.getEventUrl(),
                         event.getImgUrl()))
                 .stream().toList();
+    }
+
+    public EventDetailsDTO getEventDetails(UUID eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Event not Found"));
+
+        List<Coupon> coupons = couponService.consultCoupons(eventId, new Date());
+
+        List<EventDetailsDTO.CouponDTO> couponDTOS = coupons.stream()
+                .map(coupon -> new EventDetailsDTO.CouponDTO(
+                        coupon.getCode(),
+                        coupon.getDiscount(),
+                        coupon.getValid()))
+                .collect(Collectors.toList());
+
+        return new EventDetailsDTO(
+                event.getId(),
+                event.getTitle(),
+                event.getDescription(),
+                event.getDate(),
+                event.getAddress() != null ? event.getAddress().getCity(): "",
+                event.getAddress() != null ? event.getAddress().getUf(): "",
+                event.getRemote(),
+                event.getEventUrl(),
+                event.getImgUrl(),
+                couponDTOS);
+
     }
 
     public List<EventResponseDTO> getFilteredEvents(int page, int size,String title, String city, String uf, Date startDate, Date endDate) {
