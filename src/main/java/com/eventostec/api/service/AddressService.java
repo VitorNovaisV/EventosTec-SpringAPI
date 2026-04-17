@@ -11,16 +11,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddressService {
 
+    //Auto importing the Service using the "Autowired" annotation
 
     @Autowired
     private AddressRepository addressRepository;
 
-    public Address createAddress(EventRequestDTO data, Event event) {
+    //method that creates a new address using the data passed by the creation of a new event,
+    //and the event that is linked to it, creating an address object and saving it on the repository
+
+    public void createAddress(EventRequestDTO data, Event event) {
+
         Address address = new Address();
+        //creating a new address object
+
         address.setCity(data.city());
         address.setUf(data.state());
         address.setEvent(event);
+        //setting the attributes
 
-        return addressRepository.save(address);
+        //saving in the repository
+        addressRepository.save(address);
     }
 }
