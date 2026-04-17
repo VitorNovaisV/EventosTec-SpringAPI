@@ -1,7 +1,5 @@
 package com.eventostec.api.domain.event;
 
-import com.eventostec.api.domain.coupon.Coupon;
-
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
