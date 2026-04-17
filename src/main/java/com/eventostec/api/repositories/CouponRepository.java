@@ -12,6 +12,8 @@ import java.util.UUID;
 
 public interface CouponRepository  extends JpaRepository<Coupon, UUID> {
 
+   //method that finds coupons that are valid, searching by the eventId
+   //the Query used in this method is automatically created by context using the name, by spring
 
    List<Coupon> findByEventIdAndValidAfter(UUID eventId, Date currentDate);
 }
