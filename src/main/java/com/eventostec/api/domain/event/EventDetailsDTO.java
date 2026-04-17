@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+//DTO used for receiving the data of events, with a list of coupons related linked to it
 
 public record EventDetailsDTO(
         UUID id,
