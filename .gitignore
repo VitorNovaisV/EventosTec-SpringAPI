@@ -17,9 +17,6 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
-
-application.properties
-
 /.idea/compiler.xml
 /.idea/dataSources.xml
 /.idea/encodings.xml
