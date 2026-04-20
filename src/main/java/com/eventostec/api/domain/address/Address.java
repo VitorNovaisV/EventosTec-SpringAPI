@@ -32,7 +32,7 @@ public class Address {
     private String uf;
 
     @ManyToOne
-    @JoinColumn(name = "events_id")
+    @JoinColumn(name = "events_ids")
     private Event event;
 
 }
